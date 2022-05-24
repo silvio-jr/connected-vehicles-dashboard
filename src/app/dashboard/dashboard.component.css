@@ -1,0 +1,18 @@
+#dash-title{
+  color: #2A6BAC;
+}
+thead{
+  background-color: #133A7C;
+  color: white;
+}
+
+footer{
+  height: 20px;
+  width: 100vw;
+  background-color: #133A7C;
+}
+
+.card{
+  height: 140px;
+  width: 200px;
+}

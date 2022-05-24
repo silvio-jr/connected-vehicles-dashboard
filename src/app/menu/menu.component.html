@@ -10,24 +10,27 @@
       <div class="px-2">
         <img src="/assets/img/ford.png" alt="" style="height: 40px" />
       </div>
-      <div class="sidebar-btn px-3" (click)="closeMenu()">
+      <!-- <div class="sidebar-btn px-3" (click)="closeMenu()">
         <fa-icon
           [icon]="['fas', 'xmark']"
           [styles]="{ color: 'gray' }"
           size="lg"
         ></fa-icon>
-      </div>
+      </div> -->
     </div>
     <a href="#" class="sidebar-link">Home</a>
     <a href="#" class="sidebar-link">Dashboard</a>
   </div>
 
+  <!-- implementar logout menu -->
   <div class="sidebar-btn" style="margin: 20px" (click)="openMenu()">
     <fa-icon [icon]="['fas', 'bars']" size="2x"></fa-icon>
   </div>
+  <!-- implementar logout menu -->
 </nav>
 
 <div
   class="dim"
+  (click)="closeMenu()"
   [ngStyle]="{ 'background-color': darkenBg, 'z-index': onTop }"
 ></div>
