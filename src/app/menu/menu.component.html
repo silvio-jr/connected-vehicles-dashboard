@@ -18,13 +18,13 @@
         ></fa-icon>
       </div> -->
     </div>
-    <a href="#" class="sidebar-link">Home</a>
-    <a href="#" class="sidebar-link">Dashboard</a>
+    <a routerLink="/home" class="sidebar-link">Home</a>
+    <a routerLink="/dashboard"  class="sidebar-link">Dashboard</a>
   </div>
 
   <!-- implementar logout menu -->
-  <div class="sidebar-btn" style="margin: 20px" (click)="openMenu()">
-    <fa-icon [icon]="['fas', 'bars']" size="2x"></fa-icon>
+  <div class="sidebar-btn" style="margin: 20px">
+    <fa-icon [icon]="['fas', 'bars']" size="2x" (click)="openMenu()"></fa-icon>
   </div>
   <!-- implementar logout menu -->
 </nav>

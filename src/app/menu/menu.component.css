@@ -26,9 +26,9 @@
   opacity: 0.7;
 }
 
-.sidebar-btn:hover {
+.sidebar-btn fa-icon:hover {
   transition: 0.1s;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .dim{
