@@ -1,4 +1,5 @@
-<nav>
+<nav *ngIf="user$ | async as user">
+  <div *ngIf="user.name">
   <div
     class="sidebar"
     [ngStyle]="{ width: sidebarWidth, 'background-color': sidebarBg }"
@@ -19,14 +20,42 @@
       </div> -->
     </div>
     <a routerLink="/home" class="sidebar-link">Home</a>
-    <a routerLink="/dashboard"  class="sidebar-link">Dashboard</a>
+    <a routerLink="/dashboard" class="sidebar-link">Dashboard</a>
   </div>
 
-  <!-- implementar logout menu -->
-  <div class="sidebar-btn" style="margin: 20px">
-    <fa-icon [icon]="['fas', 'bars']" size="2x" (click)="openMenu()"></fa-icon>
+  <div
+    class="d-flex flex-row justify-content-between"
+    style="margin: 16px; margin-bottom: 0; width: 97%"
+  >
+    <div class="sidebar-btn">
+      <fa-icon
+        [icon]="['fas', 'bars']"
+        size="2x"
+        (click)="openMenu()"
+      ></fa-icon>
+    </div>
+
+    <div id="user-icon" class="popover__wrapper">
+      <fa-icon
+        [icon]="['fas', 'user']"
+        class="text-secondary popover__title"
+      ></fa-icon>
+      <div class="popover__content">
+        <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
+
+        <p style="display: inline; padding-left: 10px">{{ user.name }}</p>
+        <hr />
+        <a
+          routerLink="/"
+          (click)="logout()"
+          style="text-decoration: none"
+          class="mx-3"
+          >Logout</a
+        >
+      </div>
+    </div>
   </div>
-  <!-- implementar logout menu -->
+</div>
 </nav>
 
 <div

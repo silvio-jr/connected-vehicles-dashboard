@@ -22,11 +22,15 @@
     </div>
 
     <div>
-      <h2 class="text-secondary" style="margin-top: 9rem">Boas-vindas</h2>
+      <h2 class="text-secondary mb-4" style="margin-top: 9rem">Boas-vindas</h2>
     </div>
 
-    <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <div class="form-input form-outline mt-5" style="width: 530px">
+    <div class="alert alert-danger mb-3" *ngIf="error">
+      <p> {{ error }} </p>
+    </div>
+
+    <form class="form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <div class="form-input form-outline" style="width: 530px">
         <span class="icon">
           <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
         </span>

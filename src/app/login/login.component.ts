@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './auth/auth.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,16 +10,26 @@ import { AuthService } from './auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(form: NgForm){
+  error: string = ''
+
+  login(form: NgForm){
     const username = form.value.username
     const password = form.value.password
 
-    this.authService.login(username,password).subscribe()
+    this.authService.authenticate(username,password).subscribe(
+      () => {
+        this.router.navigate(['/home'])
+      },
+      (error) => {
+        console.log(error)
+        this.error = 'Não foi possível logar com usuário e senha.'
+      }
+    );
 
     form.reset()
   }

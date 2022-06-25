@@ -17,7 +17,6 @@ import { MenuComponent } from './menu/menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-
 import { FormsModule } from '@angular/forms';
 
 
@@ -27,14 +26,14 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     MenuComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../auth/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  user$ = this.usuarioService.retornaUsuario();
+
+  constructor(private usuarioService: UserService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -27,6 +31,10 @@ export class MenuComponent implements OnInit {
     this.sidebarWidth = ""
     this.darkenBg = ""
     this.onTop = -1
+  }
+
+  logout() {
+    this.usuarioService.logout();
   }
 
 }
