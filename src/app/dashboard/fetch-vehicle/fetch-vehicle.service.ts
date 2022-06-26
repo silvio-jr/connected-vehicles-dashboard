@@ -1,17 +1,19 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Veiculo } from './vehicle.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FetchVehicleService {
+  constructor(private http: HttpClient) //private tokenService: TokenService
+  {}
 
-  constructor(private httpClient: HttpClient) { }
+  fetchVehicleData(): Observable<any> {
+    return this.http.get('http://localhost:3000/vehicleData');
+  }
 
-  fetchVehicle(){
-    this.httpClient
-    .get <Veiculo[]> ('http://localhost:3000/vehicleData')
-    .subscribe(vehicles => console.log(vehicles))
+  fetchVehicles(): Observable<any> {
+    return this.http.get('http://localhost:3000/vehicle');
   }
 }

@@ -8,6 +8,8 @@ export interface Veiculo{
   softwareUpdates: number | string
 }
 
+// export type Veiculos = Array<Veiculo>
+
 export interface VeiculosAPI {
   vehicles: Veiculos;
 }
