@@ -1,5 +1,5 @@
 <main class="d-flex flex-column align-items-center">
-  <h1 (click)="loadVehicles()" id="dash-title">Dashboard FORD</h1>
+  <h1 id="dash-title">Dashboard FORD</h1>
 
   <section class="d-flex justify-content-around mt-3" style="width: 100vw">
     <div class="card border-2 border-secondary">
@@ -58,7 +58,7 @@
       <tr>
         <th>Código - Vin</th>
         <th>Odômetro</th>
-        <th>Nível de Combustível</th>
+        <th>Nível de Combustível %</th>
         <th>Status</th>
         <th>Lat.</th>
         <th>Long.</th>
@@ -66,12 +66,20 @@
     </thead>
     <tbody>
       <tr>
-        <td>DASDADASDA7DAS6DAS53A</td>
-        <td>10000km</td>
-        <td>25%</td>
-        <td>off</td>
-        <td>-12,3653</td>
-        <td>-35,8712</td>
+        <td>
+          <input
+            (keypress)="searchVehicleData()"
+            placeholder="Pesquise veículo"
+            type="text"
+            class="form-control"
+            [(ngModel)]="vin"
+          />
+        </td>
+        <td>{{ data.odometer }}</td>
+        <td>{{ data.fuelLevel }}</td>
+        <td>{{ data.status }}</td>
+        <td>{{ data.lat }}</td>
+        <td>{{ data.long }}</td>
       </tr>
     </tbody>
   </table>

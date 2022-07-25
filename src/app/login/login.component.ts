@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logarAutomaticamente:Boolean = false
+
   error: string = ''
 
   login(form: NgForm){
@@ -32,6 +34,11 @@ export class LoginComponent implements OnInit {
     );
 
     form.reset()
+  }
+
+  onChange(){
+    this.logarAutomaticamente = !this.logarAutomaticamente
+    localStorage.setItem('rememberMe',JSON.stringify(this.logarAutomaticamente))
   }
 
 }
