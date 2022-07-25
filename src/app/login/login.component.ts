@@ -23,15 +23,16 @@ export class LoginComponent implements OnInit {
     const username = form.value.username
     const password = form.value.password
 
-    this.authService.authenticate(username,password).subscribe(
-      () => {
+    this.authService.authenticate(username,password).subscribe({
+      next:(res) => {
         this.router.navigate(['/home'])
+        // console.log(res)
       },
-      (error) => {
+      error:(error) => {
         console.log(error)
         this.error = 'Não foi possível logar com usuário e senha.'
       }
-    );
+    });
 
     form.reset()
   }

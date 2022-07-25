@@ -1,5 +1,5 @@
 <nav *ngIf="user$ | async as user">
-  <div *ngIf="user.name">
+  <div *ngIf="user.username">
   <div
     class="sidebar"
     [ngStyle]="{ width: sidebarWidth, 'background-color': sidebarBg }"
@@ -43,7 +43,7 @@
       <div class="popover__content">
         <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
 
-        <p style="display: inline; padding-left: 10px">{{ user.name }}</p>
+        <p style="display: inline; padding-left: 10px">{{ user.username }}</p>
         <hr />
         <a
           routerLink="/"
