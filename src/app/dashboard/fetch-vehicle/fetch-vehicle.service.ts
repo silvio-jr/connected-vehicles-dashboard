@@ -1,19 +1,28 @@
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TokenService } from 'src/app/auth/token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FetchVehicleService {
-  constructor(private http: HttpClient) //private tokenService: TokenService
+  constructor(private httpClient: HttpClient, private tokenService: TokenService)
   {}
 
   fetchVehicleData(): Observable<any> {
-    return this.http.get('http://localhost:3000/vehicleData');
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.httpClient.get('http://localhost:3000/vehicleData',{
+      headers
+    });
   }
 
   fetchVehicles(): Observable<any> {
-    return this.http.get('http://localhost:3000/vehicle');
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.httpClient.get('http://localhost:3000/vehicle', {
+      headers
+    });
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,} from '@angular/core';
 import { FetchVehicleService } from './fetch-vehicle/fetch-vehicle.service';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,13 +8,72 @@ import { FetchVehicleService } from './fetch-vehicle/fetch-vehicle.service';
   styleUrls: ['./dashboard.component.css'],
   providers: [FetchVehicleService],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
+  @ViewChild('connectedVehiclesCanvas')
+  private connectedVehiclesCanvas!: ElementRef;
+
   constructor(private fetchService: FetchVehicleService) {}
 
-  ngOnInit(): void {
-    this.loadVehicles();
-    this.loadVehicleData();
+  doughnutChart: any;
+  selected: number = 0;
+  veiculos: any;
+
+  ngAfterViewInit(): void {
+    this.doughnutChartBrowser([
+      this.veiculos[this.selected].totalSales,
+      this.veiculos[this.selected].connected,
+    ]);
   }
+
+  doughnutChartBrowser(data: number[]): void {
+    this.doughnutChart = new Chart(this.connectedVehiclesCanvas.nativeElement, {
+      type: 'doughnut',
+      data: {
+        // labels: ['Total de Vendas','Conectados'],
+        datasets: [
+          {
+            label: 'Connected vehicle data',
+            data: data,
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        // responsive: true,
+        plugins: {
+          title:{
+            display: true,
+            text: 'Conectados'
+          }
+        }
+      }
+    });
+  }
+
+  chartDataUpdate(newData: number[]) {
+    this.doughnutChart.data.datasets.forEach((el:any) => {
+      el.data.push(newData);
+    });
+    this.doughnutChart.update();
+  }
+
+  removeData() {
+    this.doughnutChart.data.datasets.forEach((dataset:any) => {
+        dataset.data.pop();
+    });
+    this.doughnutChart.update();
+}
+
+
+  ngOnInit(): void {
+    this.getVehicles();
+    // this.loadVehicleData();
+  }
+
+  veiculoData: any;
+
+  vin: string = '';
 
   data = {
     odometer: '',
@@ -23,29 +83,15 @@ export class DashboardComponent implements OnInit {
     long: '',
   };
 
-  vin: string = '';
-
-  veiculos: any;
-  veiculoData: any;
-
-  cars = [
-    { id: 1, name: 'Ranger', address: '/assets/img/ranger.png' },
-    { id: 2, name: 'Mustang', address: '/assets/img/mustang.png' },
-    { id: 3, name: 'Territory', address: '/assets/img/territory.png' },
-    { id: 4, name: 'Bronco Sport', address: '/assets/img/broncoSport.png' },
-  ];
-
-  selected: number = 1;
-
-  loadVehicleData() {
-    this.fetchService.fetchVehicleData().subscribe((data) => {
-      this.veiculoData = data.vehicleData;
+  getVehicleData() {
+    this.fetchService.fetchVehicleData().subscribe((res) => {
+      return (this.veiculoData = res.vehicleData);
     });
   }
 
-  loadVehicles() {
-    this.fetchService.fetchVehicles().subscribe((vehicles) => {
-      this.veiculos = vehicles.vehicles;
+  getVehicles() {
+    this.fetchService.fetchVehicles().subscribe((res) => {
+      this.veiculos = res;
     });
   }
 
@@ -57,8 +103,8 @@ export class DashboardComponent implements OnInit {
         this.data.odometer = el['odometer'];
         this.data.fuelLevel = el['fuelLevel'];
         this.data.status = el['status'];
-        this.data.lat = el['lat'];
-        this.data.long = el['long'];
+        this.data.lat = el['latitude'];
+        this.data.long = el['longitude'];
         changed = true;
       }
     });
