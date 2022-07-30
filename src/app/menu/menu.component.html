@@ -11,21 +11,21 @@
       <div class="px-2">
         <img src="/assets/img/ford.png" alt="" style="height: 40px" />
       </div>
-      <!-- <div class="sidebar-btn px-3" (click)="closeMenu()">
+      <div class="sidebar-btn px-3" (click)="closeMenu()">
         <fa-icon
           [icon]="['fas', 'xmark']"
           [styles]="{ color: 'gray' }"
           size="lg"
         ></fa-icon>
-      </div> -->
+      </div>
     </div>
     <a routerLink="/home" class="sidebar-link">Home</a>
     <a routerLink="/dashboard" class="sidebar-link">Dashboard</a>
   </div>
 
   <div
+    id="top-menu-icons"
     class="d-flex flex-row justify-content-between"
-    style="margin: 16px; margin-bottom: 0; width: 97%"
   >
     <div class="sidebar-btn">
       <fa-icon
@@ -35,12 +35,12 @@
       ></fa-icon>
     </div>
 
-    <div id="user-icon" class="popover__wrapper">
+    <div id="user-icon" class="popover-wrapper">
       <fa-icon
         [icon]="['fas', 'user']"
-        class="text-secondary popover__title"
+        class="text-secondary popover-title"
       ></fa-icon>
-      <div class="popover__content">
+      <div class="popover-content">
         <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
 
         <p style="display: inline; padding-left: 10px">{{ user.username }}</p>

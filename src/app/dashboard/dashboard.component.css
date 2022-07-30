@@ -1,20 +1,30 @@
 #dash-title{
   color: #2A6BAC;
 }
+
 thead{
   background-color: #133A7C;
   color: white;
 }
 
+.card{
+  min-height: 141px;
+  height: 21vh;
+  max-height: 162px;
+  min-width: 127px;
+  width: 14vw;
+  max-width: 239px;
+}
+
+img{
+  max-width: 45vw; 
+  max-height: 269px; 
+  min-width: 300px; 
+  object-fit: contain
+}
+
 footer{
-  height: 20px;
-  width: 100vw;
+  height: 15px;
+  width: 100%;
   background-color: #133A7C;
 }
-
-.card{
-  height: 140px;
-  width: 200px;
-}
-
-

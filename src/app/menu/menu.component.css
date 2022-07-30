@@ -49,13 +49,19 @@
   opacity: .8;
 }
 
-.popover__wrapper {
+#top-menu-icons{
+  margin: 16px; 
+  margin-bottom: 0; 
+  width: 97%;
+}
+
+.popover-wrapper {
   position: relative;
   display: inline-block;
   z-index: 3;
 }
 
-.popover__content {
+.popover-content {
   opacity: 0;
   visibility: hidden;
   position: absolute;
@@ -68,7 +74,7 @@
   width: 135px;
   height: 120px;
 }
-.popover__content:before {
+.popover-content:before {
   position: absolute;
   z-index: -1;
   content: "";
@@ -81,13 +87,13 @@
   transition-property: transform;
 
 }
-.popover__wrapper:hover .popover__content {
+.popover-wrapper:hover .popover-content {
   z-index: 10;
   opacity: 1;
   visibility: visible;
   transform: translate(0, 13px);
   transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
-.popover__message {
+.popover-message {
   text-align: center;
 }

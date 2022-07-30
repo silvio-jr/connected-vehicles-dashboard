@@ -10,5 +10,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     CommonModule,
     DashboardRoutingModule
   ]
+
 })
 export class DashboardModule { }

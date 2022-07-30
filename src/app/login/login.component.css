@@ -1,8 +1,5 @@
 .form-input {
   position: relative;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 .text-input {
@@ -25,4 +22,14 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+form{
+  width: 100%;
+  max-width: 608px;
+  padding: 20px;
+}
+
+button{
+  width: 100%;
 }

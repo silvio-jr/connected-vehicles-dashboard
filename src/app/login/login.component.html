@@ -1,28 +1,28 @@
 <div class="row align-items-center p-0 m-0">
-  <div class="col-7">
+  <div class="d-flex align-items-center justify-content-center col-7">
     <img
       src="/assets/img/ranger.png"
       class="img-fluid"
       style="opacity: 0.7"
-      alt=""
+      alt="imagem da ford ranger"
     />
   </div>
 
   <div
-    class="d-flex flex-column align-items-center col-5 bg-light"
-    style="height: 100vh"
+    class="d-flex flex-column align-items-center justify-content-center col-5 bg-light"
+    style="height: 100vh;"
   >
-    <div class="pt-3">
+    <div class="pt-3 d-flex flex-column align-items-center">
       <img
         src="/assets/img/ford.png"
         class="img-fluid"
-        style="width: 200px"
+        style="max-width: 35%; object-fit: contain;"
         alt="ford logo"
       />
     </div>
 
     <div>
-      <h2 class="text-secondary mb-4" style="margin-top: 9rem">Boas-vindas</h2>
+      <h2 class="text-secondary mb-4" style="margin-top: 6rem">Boas-vindas</h2>
     </div>
 
     <div class="alert alert-danger mb-3" *ngIf="error">
@@ -30,7 +30,7 @@
     </div>
 
     <form class="form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-      <div class="form-input form-outline" style="width: 530px">
+      <div class="form-input form-outline" style="width: 100%;">
         <span class="icon">
           <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
         </span>
@@ -44,7 +44,7 @@
         />
       </div>
 
-      <div class="form-input form-outline mt-4" style="width: 530px">
+      <div class="form-input form-outline mt-4" >
         <span class="icon">
           <fa-icon [icon]="['fas', 'lock']" class="text-secondary"></fa-icon>
         </span>
@@ -74,7 +74,7 @@
 
       <button
         type="submit"
-        class="btn btn-primary btn-md btn-block font-weight-bold mt-4 w-100"
+        class="btn btn-primary btn-md btn-block font-weight-bold mt-4"
         [disabled]="!loginForm.valid"
       >
         Entrar

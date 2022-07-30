@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,} from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FetchVehicleService } from './fetch-vehicle/fetch-vehicle.service';
-import Chart from 'chart.js/auto';
+
+declare var google: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -8,70 +9,112 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./dashboard.component.css'],
   providers: [FetchVehicleService],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
-  @ViewChild('connectedVehiclesCanvas')
-  private connectedVehiclesCanvas!: ElementRef;
+export class DashboardComponent implements OnInit {
 
   constructor(private fetchService: FetchVehicleService) {}
 
-  doughnutChart: any;
   selected: number = 0;
-  veiculos: any;
-
-  ngAfterViewInit(): void {
-    this.doughnutChartBrowser([
-      this.veiculos[this.selected].totalSales,
-      this.veiculos[this.selected].connected,
-    ]);
-  }
-
-  doughnutChartBrowser(data: number[]): void {
-    this.doughnutChart = new Chart(this.connectedVehiclesCanvas.nativeElement, {
-      type: 'doughnut',
-      data: {
-        // labels: ['Total de Vendas','Conectados'],
-        datasets: [
-          {
-            label: 'Connected vehicle data',
-            data: data,
-            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
-            hoverOffset: 4,
-          },
-        ],
-      },
-      options: {
-        // responsive: true,
-        plugins: {
-          title:{
-            display: true,
-            text: 'Conectados'
-          }
-        }
-      }
-    });
-  }
-
-  chartDataUpdate(newData: number[]) {
-    this.doughnutChart.data.datasets.forEach((el:any) => {
-      el.data.push(newData);
-    });
-    this.doughnutChart.update();
-  }
-
-  removeData() {
-    this.doughnutChart.data.datasets.forEach((dataset:any) => {
-        dataset.data.pop();
-    });
-    this.doughnutChart.update();
-}
-
+  veiculos: any ;
+  veiculoData: any;
+  chartData: any;
 
   ngOnInit(): void {
     this.getVehicles();
     // this.loadVehicleData();
+    this.googleChartsInit();
   }
 
-  veiculoData: any;
+  updateConnectedChartData (){
+    return [['Conectados',this.veiculos[this.selected].connected],['Desconectados',this.veiculos[this.selected].totalSales]]
+  }
+
+  updateUpdatedChartData (){
+    return [['Atualizados',this.veiculos[this.selected].softwareUpdates],['Desatualizados',this.veiculos[this.selected].totalSales]]
+  }
+
+  googleChartsInit():void{
+    if(typeof(google) !== 'undefined'){
+      google.charts.load('current',{'packages':['corechart']});
+      setTimeout(() => {
+        google.charts.setOnLoadCallback(this.displayCharts());
+      }, 600)
+    }
+  }
+
+  displayCharts(): void{
+    this.displayDoughnutChartConnected();
+    this.displayDoughnutChartUpdated();
+  }
+
+  displayDoughnutChartConnected(){
+    const el = document.getElementById('doughnut-chart-connected');
+    const chart = new google.visualization.PieChart(el); //
+    chart.draw(this.getDataTableConnected(), this.getOptionsConneted());
+    const option = this.getOptionsConneted();
+    option['pieHole'] = 0.30;
+    chart.draw(this.getDataTableConnected(), option);
+  }
+
+  displayDoughnutChartUpdated(){
+    const el = document.getElementById('doughnut-chart-updated');
+    const chart = new google.visualization.PieChart(el); //
+    chart.draw(this.getDataTableUpdated(), this.getOptionsUpdated());
+    const option = this.getOptionsUpdated();
+    option['pieHole'] = 0.30;
+    chart.draw(this.getDataTableUpdated(), option);
+  }
+
+  getDataTableConnected():any{
+    const tData = new google.visualization.DataTable();
+    tData.addColumn('string','label')
+    tData.addColumn('number','value')
+    tData.addRows(this.updateConnectedChartData());
+    return tData;
+  }
+
+  getDataTableUpdated():any{
+    const tData = new google.visualization.DataTable();
+    tData.addColumn('string','label')
+    tData.addColumn('number','value')
+    tData.addRows(this.updateUpdatedChartData());
+    return tData;
+  }
+
+  getOptionsConneted():any{
+    return{
+      'title': 'Veículos Conectados',
+      'width': 245,
+      'height': 250,
+      'colors':['#133A7C','#dbdbdc'],
+      'legend':'none',
+      'fontSize': 13
+    }
+  }
+
+  getOptionsUpdated():any{
+    return{
+      'title': 'Update Software',
+      'width': 245,
+      'height': 250,
+      'colors':['#133A7C','#dbdbdc'],
+      'legend':'none',
+      'fontSize': 13
+    }
+  }
+
+  getVehicleData() {
+    this.fetchService.fetchVehicleData().subscribe((res) => {
+      return this.veiculoData = res.vehicleData;
+    });
+  }
+
+  getVehicles() {
+    this.fetchService.fetchVehicles().subscribe((res) => {
+      this.veiculos = res;
+    });
+  }
+
+  // ======================================================================================== //
 
   vin: string = '';
 
@@ -82,18 +125,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     lat: '',
     long: '',
   };
-
-  getVehicleData() {
-    this.fetchService.fetchVehicleData().subscribe((res) => {
-      return (this.veiculoData = res.vehicleData);
-    });
-  }
-
-  getVehicles() {
-    this.fetchService.fetchVehicles().subscribe((res) => {
-      this.veiculos = res;
-    });
-  }
 
   searchVehicleData() {
     let changed: Boolean = false;

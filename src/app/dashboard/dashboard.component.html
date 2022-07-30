@@ -1,15 +1,21 @@
-<main >
-
+<main>
   <div class="d-flex flex-column align-items-center">
     <h1 id="dash-title">Dashboard FORD</h1>
   </div>
 
-  <section class="d-flex justify-content-around mt-3" style="width: 100vw">
+  <section
+    class="d-flex justify-content-around mt-3 flex-wrap"
+    style="width: 100%"
+  >
     <div class="card border-2 border-secondary">
       <h5 class="card-header border-secondary text-secondary">Veículo</h5>
       <div class="card-body">
-        <select class="form-select" [(ngModel)]="selected" (ngModelChange)="chartDataUpdate( [ veiculos[selected].totalSales,veiculos[selected].connected ] )">
-          <option *ngFor="let veiculo of veiculos; index as i" [value]="i" >
+        <select
+          class="form-select"
+          [(ngModel)]="selected"
+          (ngModelChange)="this.googleChartsInit()"
+        >
+          <option *ngFor="let veiculo of veiculos; index as i" [value]="i">
             {{ veiculo.model }}
           </option>
         </select>
@@ -52,17 +58,22 @@
     </div>
   </section>
 
-  <div class="my-4 d-flex flex-row justify-content-between" style="height: 270px;">
-    <img src="{{ 'http://localhost:3000/'+veiculos[selected].path.replace('\\','/') }}"
-    alt="vehicle image"
-    style="width: 600px; height:236px" />
+  <div
+    style="width: 100%"
+    class="my-4 d-flex justify-content-md-between justify-content-sm-center flex-wrap"
+  >
+    <img
+      src="{{
+        'http://localhost:3000/' + veiculos[selected].path.replace('\\', '/')
+      }}"
+      alt="vehicle image"
+    />
 
-    <div style="position: relative; height:80px; ">
-      <canvas #connectedVehiclesCanvas style="height:120px;"></canvas>
-    </div>
+    <div  id="doughnut-chart-connected"></div>
+    <div style="margin: 15px;" id="doughnut-chart-updated"></div>
   </div>
 
-  <table class="table table-bordered mb-0">
+  <table class="w-100 table table-bordered m-0">
     <thead>
       <tr>
         <th>Código - Vin</th>
