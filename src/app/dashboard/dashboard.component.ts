@@ -1,5 +1,5 @@
-import { Component, OnInit, } from '@angular/core';
-import { FetchVehicleService } from './fetch-vehicle/fetch-vehicle.service';
+import { Component, OnInit } from '@angular/core';
+import { FordApiService } from './ford-api/ford-api.service';
 
 declare var google: any;
 
@@ -7,109 +7,116 @@ declare var google: any;
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [FetchVehicleService],
+  providers: [FordApiService],
 })
 export class DashboardComponent implements OnInit {
+  constructor(private fordApi: FordApiService) {}
 
-  constructor(private fetchService: FetchVehicleService) {}
-
+  // make models
   selected: number = 0;
-  veiculos: any ;
+  veiculos: any;
   veiculoData: any;
-  chartData: any;
 
   ngOnInit(): void {
     this.getVehicles();
-    // this.loadVehicleData();
+    this.getVehicleData();
     this.googleChartsInit();
   }
 
-  updateConnectedChartData (){
-    return [['Conectados',this.veiculos[this.selected].connected],['Desconectados',this.veiculos[this.selected].totalSales]]
+  updateConnectedChartData() {
+    return [
+      ['Conectados', this.veiculos[this.selected].connected],
+      ['Desconectados', this.veiculos[this.selected].totalSales],
+    ];
   }
 
-  updateUpdatedChartData (){
-    return [['Atualizados',this.veiculos[this.selected].softwareUpdates],['Desatualizados',this.veiculos[this.selected].totalSales]]
+  updateUpdatedChartData() {
+    return [
+      ['Atualizados', this.veiculos[this.selected].softwareUpdates],
+      ['Desatualizados', this.veiculos[this.selected].totalSales],
+    ];
   }
 
-  googleChartsInit():void{
-    if(typeof(google) !== 'undefined'){
-      google.charts.load('current',{'packages':['corechart']});
+  googleChartsInit(): void {
+    if (typeof google !== 'undefined') {
+      google.charts.load('current', { packages: ['corechart'] });
       setTimeout(() => {
         google.charts.setOnLoadCallback(this.displayCharts());
-      }, 600)
+      }, 600);
     }
   }
 
-  displayCharts(): void{
+  displayCharts(): void {
     this.displayDoughnutChartConnected();
     this.displayDoughnutChartUpdated();
   }
 
-  displayDoughnutChartConnected(){
+  displayDoughnutChartConnected() {
     const el = document.getElementById('doughnut-chart-connected');
     const chart = new google.visualization.PieChart(el); //
     chart.draw(this.getDataTableConnected(), this.getOptionsConneted());
     const option = this.getOptionsConneted();
-    option['pieHole'] = 0.30;
+    option['pieHole'] = 0.3;
     chart.draw(this.getDataTableConnected(), option);
   }
 
-  displayDoughnutChartUpdated(){
+  displayDoughnutChartUpdated() {
     const el = document.getElementById('doughnut-chart-updated');
     const chart = new google.visualization.PieChart(el); //
     chart.draw(this.getDataTableUpdated(), this.getOptionsUpdated());
     const option = this.getOptionsUpdated();
-    option['pieHole'] = 0.30;
+    option['pieHole'] = 0.3;
     chart.draw(this.getDataTableUpdated(), option);
   }
 
-  getDataTableConnected():any{
+  getDataTableConnected(): any {
     const tData = new google.visualization.DataTable();
-    tData.addColumn('string','label')
-    tData.addColumn('number','value')
+    tData.addColumn('string', 'label');
+    tData.addColumn('number', 'value');
     tData.addRows(this.updateConnectedChartData());
     return tData;
   }
 
-  getDataTableUpdated():any{
+  getDataTableUpdated(): any {
     const tData = new google.visualization.DataTable();
-    tData.addColumn('string','label')
-    tData.addColumn('number','value')
+    tData.addColumn('string', 'label');
+    tData.addColumn('number', 'value');
     tData.addRows(this.updateUpdatedChartData());
     return tData;
   }
 
-  getOptionsConneted():any{
-    return{
-      'title': 'Veículos Conectados',
-      'width': 245,
-      'height': 250,
-      'colors':['#133A7C','#dbdbdc'],
-      'legend':'none',
-      'fontSize': 13
-    }
+  getOptionsConneted(): any {
+    return {
+      title: 'Veículos Conectados',
+      width: 245,
+      height: 250,
+      colors: ['#133A7C', '#dbdbdc'],
+      legend: 'none',
+      fontSize: 13,
+    };
   }
 
-  getOptionsUpdated():any{
-    return{
-      'title': 'Update Software',
-      'width': 245,
-      'height': 250,
-      'colors':['#133A7C','#dbdbdc'],
-      'legend':'none',
-      'fontSize': 13
-    }
+  getOptionsUpdated(): any {
+    return {
+      title: 'Update Software',
+      width: 245,
+      height: 250,
+      colors: ['#133A7C', '#dbdbdc'],
+      legend: 'none',
+      fontSize: 13,
+    };
   }
 
-  getVehicleData() {
-    this.fetchService.fetchVehicleData().subscribe((res) => {
-      return this.veiculoData = res.vehicleData;
+  // ======================================================================================== //
+
+  getVehicleData():void {
+    this.fordApi.fetchVehicleData().subscribe((res) => {
+      this.veiculoData = res;
     });
   }
 
-  getVehicles() {
-    this.fetchService.fetchVehicles().subscribe((res) => {
+  getVehicles():void {
+    this.fordApi.fetchVehicles().subscribe((res) => {
       this.veiculos = res;
     });
   }
@@ -119,6 +126,8 @@ export class DashboardComponent implements OnInit {
   vin: string = '';
 
   data = {
+    id: '',
+    vin: '',
     odometer: '',
     fuelLevel: '',
     status: '',
@@ -126,26 +135,76 @@ export class DashboardComponent implements OnInit {
     long: '',
   };
 
-  searchVehicleData() {
-    let changed: Boolean = false;
+  mode: string = "search" // search, found, add, update
+
+  postVehicleData():void{
+    if (this.vin !== ''){
+      const postData = {
+        vin: this.vin,
+        odometer: this.data.odometer,
+        tirePressure: '36,36,35,34',
+        fuelLevel: this.data.fuelLevel,
+        vehicleStatus: this.data.status,
+        batteryStatus: 'on',
+        latitude: this.data.lat,
+        longitude: this.data.long,
+      }
+      this.fordApi.sendVehicleData(postData).subscribe(res =>{
+        console.log(res)
+      })
+      this.emptyData(true);
+      alert('veículo ' + this.vin + ' adicionado')
+    } else{
+      alert('Campo Vin não pode estar vazio.')
+    }
+  }
+
+  searchVehicleData(): void {
+    let found: boolean = false;
 
     this.veiculoData.forEach((el: any) => {
-      if (el.vin == this.vin) {
-        this.data.odometer = el['odometer'];
-        this.data.fuelLevel = el['fuelLevel'];
-        this.data.status = el['status'];
-        this.data.lat = el['latitude'];
-        this.data.long = el['longitude'];
-        changed = true;
+      if (el.vin == this.vin.trim()) {
+        this.data.id = el.id
+        this.data.odometer = el.odometer;
+        this.data.fuelLevel = el.fuelLevel;
+        this.data.status = el.VehicleStatus;
+        this.data.lat = el.latitude
+        this.data.long = el.longitude
+        this.mode = "found"
+        found = true;
       }
     });
 
-    if (!changed) {
+    if (!found) {
+      this.emptyData();
+      this.mode = "search"
+    }
+  }
+
+  emptyData(eraseVin:boolean = false):void{
+      if (eraseVin) this.vin = '';
       this.data.odometer = '';
       this.data.fuelLevel = '';
       this.data.status = '';
       this.data.lat = '';
       this.data.long = '';
+  }
+
+  updateVehicleData(){
+    const uData = {
+      vin: this.vin,
+      odometer: this.data.odometer,
+      fuelLevel: this.data.fuelLevel,
+      tirePressure: '36,36,35,34',
+      vehicleStatus: this.data.status,
+      batteryStatus: 'on',
+      latitude: this.data.lat,
+      longitude: this.data.long
     }
+    this.fordApi.editVehicleData(uData,this.data.id).subscribe(res =>{
+      console.log(res)
+    })
+    alert('veículo ' + this.vin + ' editado')
+    this.mode = 'found'
   }
 }

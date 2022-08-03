@@ -28,3 +28,28 @@ footer{
   width: 100%;
   background-color: #133A7C;
 }
+
+#search-bar{
+  width: 86%;
+  padding: 4px;
+}
+
+#add-bar{
+  width: 77%;
+  padding: 4px;
+}
+
+
+
+.icons{
+  border: solid 2.2px rgb(180, 177, 177);
+  padding: 2px;
+}
+
+.icons:hover{
+  opacity: 0.8;
+}
+
+#icon-add{
+  background-color: #133A7C;
+}
