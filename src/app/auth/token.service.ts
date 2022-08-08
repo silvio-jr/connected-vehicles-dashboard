@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 const KEY = 'token'
 
@@ -7,7 +8,7 @@ const KEY = 'token'
 })
 export class TokenService {
 
-  constructor() { }
+  constructor(private jwtHelper: JwtHelperService) { }
 
   returnToken(){
     return localStorage.getItem(KEY) ?? '';
@@ -23,5 +24,10 @@ export class TokenService {
 
   haveToken(){
     return !!this.returnToken();
+  }
+
+  tokenExpired(){
+    const token:string = localStorage.getItem(KEY) ?? ''
+    return this.jwtHelper.isTokenExpired(token)
   }
 }

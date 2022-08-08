@@ -1,5 +1,5 @@
 <div class="row align-items-center p-0 m-0">
-  <div class="d-flex align-items-center justify-content-center col-7">
+  <div class="d-flex align-items-center justify-content-center col-md-7 d-none  d-md-block">
     <img
       src="/assets/img/ranger.png"
       class="img-fluid"
@@ -9,7 +9,7 @@
   </div>
 
   <div
-    class="d-flex flex-column align-items-center justify-content-center col-5 bg-light"
+    class="d-flex flex-column align-items-center justify-content-center col-sm-12 col-md-5 bg-light"
     style="height: 100vh;"
   >
     <div class="pt-3 d-flex flex-column align-items-center">
@@ -29,7 +29,7 @@
       <p> {{ error }} </p>
     </div>
 
-    <form class="form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+    <form class="form" #loginForm="ngForm" (ngSubmit)="login(loginForm); saveLoginState()">
       <div class="form-input form-outline" style="width: 100%;">
         <span class="icon">
           <fa-icon [icon]="['fas', 'user']" class="text-secondary"></fa-icon>
@@ -44,13 +44,17 @@
         />
       </div>
 
-      <div class="form-input form-outline mt-4" >
+      <div id="container" class="form-input form-outline mt-4" >
         <span class="icon">
           <fa-icon [icon]="['fas', 'lock']" class="text-secondary"></fa-icon>
         </span>
+        <span id="eye" class="icon">
+          <fa-icon *ngIf="passwordType === 'password'" [icon]="['fas', 'eye-slash']" class="text-secondary" (click)="changePasswordType()"></fa-icon>
+          <fa-icon *ngIf="passwordType === 'text'" [icon]="['fas', 'eye']" class="text-secondary" (click)="changePasswordType()"></fa-icon>
+        </span>
         <input
           class="form-control text-input"
-          type="password"
+          [type]="passwordType"
           name="password"
           placeholder="Senha"
           required
@@ -64,7 +68,7 @@
         >
 
         <input
-          (change)="onChange()"
+          (change)="toggleSwitch();"
           class="form-check-input"
           type="checkbox"
           role="switch"

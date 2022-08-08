@@ -76,7 +76,7 @@
   <table class="w-100 table table-bordered m-0">
     <thead>
       <tr>
-        <th style="width: 27%; min-width: 268px;">Código - Vin</th>
+        <th style="width: 27%;">Código - Vin</th>
         <th>Odômetro</th>
         <th style="width: 20%;"> Nível de Combustível (%)</th>
         <th>Status</th>
@@ -86,7 +86,7 @@
     </thead>
     <tbody style="font-size: 1.2rem;">
       <tr>
-        <td *ngIf="mode === 'search' || mode === 'found' || mode === 'add'" 
+        <td *ngIf="mode === 'search' || mode === 'found' || mode === 'add'"
           class="d-flex align-items-center justify-content-between"
           >
           <input
@@ -106,12 +106,12 @@
             class="form-control"
             [(ngModel)]="vin"
           />
-          
+
           <span style="margin-left: 5px ;" class="icon" *ngIf=" mode === 'search'" (click) = "mode = 'add'; emptyData(true)">
             <fa-icon [icon]="['fas', 'plus']" class="icons text-secondary"></fa-icon>
-          </span> 
-          
-          <div *ngIf="mode === 'add'" style="width: 20%;" class="d-flex justify-content-around">
+          </span>
+
+          <div *ngIf="mode === 'add'" style="width: 22%;" class="d-flex justify-content-around">
             <span class="icon" (click) = "mode = 'search';">
               <fa-icon [styles]="{'color':'white'}" id="icon-add" [icon]="['fas', 'plus']" class="icons text-secondary"></fa-icon>
             </span>
@@ -122,12 +122,12 @@
               <fa-icon [styles]="{'color':'red'}" [icon]="['fas', 'xmark']" class="icons text-secondary"></fa-icon>
             </span>
           </div>
-          
-          <div *ngIf=" mode === 'found'" style="width: 15%;" class="d-flex justify-content-around">
+
+          <div *ngIf=" mode === 'found'" style="width: 18%;" class="d-flex justify-content-around">
             <span class="icon" (click) = "mode = 'update';">
               <fa-icon [icon]="['fas', 'arrows-rotate']" class="icons text-secondary"></fa-icon>
             </span>
-            <span class="icon">
+            <span class="icon" (click) = "removeVehicleData()">
               <fa-icon [icon]="['fas', 'trash-can']" class="icons text-secondary"></fa-icon>
             </span>
           </div>
@@ -136,11 +136,11 @@
 
         <td *ngIf=" mode === 'update'" class="d-flex justify-content-between">
           {{ vin }}
-          <div class="d-flex justify-content-around">
+          <div style="width: 22%;" class="d-flex justify-content-around">
             <span class="icon" (click) = "mode = 'found';">
-              <fa-icon 
-              [styles]="{'color':'white'}" 
-              [icon]="['fas', 'arrows-rotate']" 
+              <fa-icon
+              [styles]="{'color':'white'}"
+              [icon]="['fas', 'arrows-rotate']"
               class="icons text-secondary"
               style="background-color: #133A7C;"
               >
@@ -160,7 +160,7 @@
         <td *ngIf=" mode === 'search' || mode === 'found'">{{ data.status }}</td>
         <td *ngIf=" mode === 'search' || mode === 'found'">{{ data.lat }}</td>
         <td *ngIf=" mode === 'search' || mode === 'found'">{{ data.long }}</td>
-        
+
         <td *ngIf=" mode === 'add' || mode === 'update'"> <input type="text" class="form-control" [(ngModel)]="data.odometer"></td>
         <td *ngIf=" mode === 'add' || mode === 'update'"> <input type="text" class="form-control" [(ngModel)]="data.fuelLevel"></td>
         <td *ngIf=" mode === 'add' || mode === 'update'"><input type="text" class="form-control" [(ngModel)]="data.status"></td>

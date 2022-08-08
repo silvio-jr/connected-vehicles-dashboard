@@ -14,13 +14,12 @@ export class LoginGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if(this.usuarioService.estaLogado() && this.getLocalStorage()){
-      // this.usuarioService.logout()
+    if(this.usuarioService.estaLogado() && this.getLocalStorage() === 'true'){
       this.router.navigate(['home']);
       return false
     }
 
-    else if(this.usuarioService.estaLogado() && !this.getLocalStorage()){
+    else if(this.usuarioService.estaLogado() && this.getLocalStorage() === 'false'){
       this.usuarioService.logout()
     }
 
@@ -28,7 +27,7 @@ export class LoginGuard implements CanLoad {
   }
 
   getLocalStorage(){
-    return Boolean(localStorage.getItem('rememberMe'))
+    return localStorage.getItem('rememberMe')
   }
 
 }

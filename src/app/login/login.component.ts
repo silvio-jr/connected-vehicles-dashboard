@@ -15,7 +15,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logarAutomaticamente:Boolean = false
+  isPasswordVisible:boolean = false
+
+  rememberMe:any = false
+
+  passwordType: 'text' | 'password' = 'password'
 
   error: string = ''
 
@@ -32,13 +36,24 @@ export class LoginComponent implements OnInit {
         this.error = 'Não foi possível logar com usuário e senha.'
       }
     });
-
     form.reset()
   }
 
-  onChange(){
-    this.logarAutomaticamente = !this.logarAutomaticamente
-    localStorage.setItem('rememberMe',JSON.stringify(this.logarAutomaticamente))
+  saveLoginState(){
+    localStorage.setItem('rememberMe',this.rememberMe)
+  }
+
+  toggleSwitch(){
+    this.rememberMe = !this.rememberMe
+    console.log(this.rememberMe)
+  }
+
+  changePasswordType(){
+    if (this.passwordType === 'password'){
+      this.passwordType = 'text'
+    } else {
+      this.passwordType = 'password'
+    }
   }
 
 }

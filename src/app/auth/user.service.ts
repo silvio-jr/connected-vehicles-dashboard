@@ -38,6 +38,7 @@ export class UserService {
   }
 
   estaLogado(){
-    return this.tokenService.haveToken();
+    return this.tokenService.haveToken() && !this.tokenService.tokenExpired();
+    // return this.tokenService.haveToken();
   }
 }

@@ -37,4 +37,10 @@ export class FordApiService {
     const headers = new HttpHeaders().append('x-access-token', token)
     return this.http.patch('http://localhost:3000/vehicleData/' + id, body, {headers})
   }
+
+  deleteVehicleData(id: string): Observable<any>{
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.http.delete ('http://localhost:3000/vehicleData/' + id, {headers})
+  }
 }

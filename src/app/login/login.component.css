@@ -3,7 +3,7 @@
 }
 
 .text-input {
-  padding: 5px 10px 5px 50px;
+  padding: 5px 10% 5px 50px;
   display: block;
 }
 
@@ -15,7 +15,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 #check-input-box{
@@ -32,4 +31,12 @@ form{
 
 button{
   width: 100%;
+}
+
+#eye{
+  left: 91%;
+}
+
+#container{
+  overflow:hidden;
 }

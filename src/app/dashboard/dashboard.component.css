@@ -17,9 +17,9 @@ thead{
 }
 
 img{
-  max-width: 45vw; 
-  max-height: 269px; 
-  min-width: 300px; 
+  max-width: 45vw;
+  max-height: 269px;
+  min-width: 300px;
   object-fit: contain
 }
 
@@ -39,10 +39,8 @@ footer{
   padding: 4px;
 }
 
-
-
 .icons{
-  border: solid 2.2px rgb(180, 177, 177);
+  border: solid 1.5px rgb(180, 177, 177);
   padding: 2px;
 }
 
