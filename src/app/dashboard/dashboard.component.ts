@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
       google.charts.load('current', { packages: ['corechart'] });
       setTimeout(() => {
         google.charts.setOnLoadCallback(this.displayCharts());
-      }, 600);
+      }, 700);
     }
   }
 
@@ -142,8 +142,8 @@ export class DashboardComponent implements OnInit {
         odometer: this.data.odometer,
         tirePressure: '36,36,35,34',
         fuelLevel: this.data.fuelLevel,
-        vehicleStatus: this.data.status,
-        batteryStatus: 'on',
+        vehicleStatus: 'on',
+        batteryStatus: this.data.status,
         latitude: this.data.lat,
         longitude: this.data.long,
       };
@@ -161,18 +161,20 @@ export class DashboardComponent implements OnInit {
   searchVehicleData(): void {
     let found: boolean = false;
 
-    this.veiculoData.forEach((el: any) => {
-      if (el.vin == this.vin.trim()) {
-        this.data.id = el.id;
-        this.data.odometer = el.odometer;
-        this.data.fuelLevel = el.fuelLevel;
-        this.data.status = el.VehicleStatus;
-        this.data.lat = el.latitude;
-        this.data.long = el.longitude;
-        this.mode = 'found';
-        found = true;
-      }
-    });
+    if (this.veiculoData.length){
+      this.veiculoData.forEach((el: any) => {
+        if (el.vin == this.vin.trim()) {
+          this.data.id = el.id;
+          this.data.odometer = el.odometer;
+          this.data.fuelLevel = el.fuelLevel;
+          this.data.status = el.VehicleStatus;
+          this.data.lat = el.latitude;
+          this.data.long = el.longitude;
+          this.mode = 'found';
+          found = true;
+        }
+      });
+    }
 
     if (!found) {
       this.emptyData();

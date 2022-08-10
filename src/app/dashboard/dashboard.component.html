@@ -3,7 +3,7 @@
     <h1 id="dash-title">Dashboard FORD</h1>
   </div>
 
-  <section
+  <section *ngIf="veiculos.length"
     class="d-flex justify-content-around mt-3 flex-wrap"
     style="width: 100%"
   >
@@ -58,7 +58,11 @@
     </div>
   </section>
 
-  <div
+  <section class="d-flex justify-content-center" *ngIf="!veiculos.length">
+    <h1 class="text-secundary my-5"> Ainda não foram adicionados veículos. </h1>
+  </section>
+
+  <div *ngIf="veiculos.length"
     style="width: 100%"
     class="my-4 d-flex justify-content-md-between justify-content-sm-center flex-wrap"
   >
