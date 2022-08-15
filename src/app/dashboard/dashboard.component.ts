@@ -155,6 +155,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  removeVehicle(): void {
+    this.fordApi.deleteVehicle(this.veiculos[this.selected].id).subscribe((res) => {
+      console.log(res);
+    });
+    alert( 'Veiculo removido');
+    this.selected = 0
+    this.getVehicles();
+  }
+
   // =========================================== vehicleData ======================================== //
 
   getVehicleData(): void {

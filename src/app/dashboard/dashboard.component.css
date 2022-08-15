@@ -42,6 +42,7 @@ footer{
 .icons{
   border: solid 1.5px rgb(180, 177, 177);
   padding: 2px;
+  border-radius: 5px;
 }
 
 .icons:hover{

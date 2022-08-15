@@ -34,6 +34,12 @@ export class FordApiService {
     return this.http.post(this.SERVER_URL+'vehicle', body, {headers})
   }
 
+  deleteVehicle(id: string): Observable<any>{
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.http.delete(this.SERVER_URL+'vehicle/' + id, {headers})
+  }
+
   //========================================= vehicle data =========================================//
 
   fetchVehicleData(): Observable<any> {
