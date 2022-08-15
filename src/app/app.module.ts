@@ -24,6 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

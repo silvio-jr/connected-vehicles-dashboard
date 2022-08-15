@@ -3,7 +3,7 @@
     <h1 id="dash-title">Dashboard FORD</h1>
   </div>
 
-  <section *ngIf="veiculos.length"
+  <section *ngIf="veiculos.length && vehicleMode === 'show'"
     class="d-flex justify-content-around mt-3 flex-wrap"
     style="width: 100%"
   >
@@ -58,11 +58,74 @@
     </div>
   </section>
 
+ <!-- //======================================== add section =============================================// -->
+
+  <section
+  *ngIf="vehicleMode==='add'"
+  class="d-flex justify-content-around mt-3 flex-wrap"
+  style="width: 100%"
+  >
+
+  <div
+  class="card border-2 border-secondary"
+  style="min-width: 280px; "
+  >
+    <h5 class="card-header border-secondary text-secondary">Veículo</h5>
+    <div class="card-body">
+
+      <div class="custom-file">
+        <input type="text" class="form-control mb-1" [(ngModel)]="vehiclePostData.model">
+        <input
+          type="file"
+          class="custom-file-input"
+          id="customFile"
+          (change)="onFileSelect($event)"
+        >
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card border-2 border-secondary">
+    <h5 class="card-header border-secondary text-secondary">
+      Total de vendas
+    </h5>
+
+    <div class="card-body">
+      <input type="text" class="form-control" [(ngModel)]="vehiclePostData.totalSales">
+      <p class="text-secondary">unid.</p>
+    </div>
+  </div>
+
+  <div class="card border-2 border-secondary">
+    <h5 class="card-header border-secondary text-secondary">Conectados</h5>
+    <div class="card-body">
+      <input type="text" class="form-control" [(ngModel)]="vehiclePostData.connected">
+      <p class="text-secondary">unid.</p>
+    </div>
+  </div>
+
+  <div class="card border-2 border-secondary">
+    <h5 class="card-header border-secondary text-secondary">
+      Update Software
+    </h5>
+    <div class="card-body">
+      <input type="text" class="form-control" [(ngModel)]="vehiclePostData.softwareUpdates">
+      <p class="text-secondary">unid.</p>
+    </div>
+  </div>
+
+  </section>
+
+  <!-- //======================================= without vehicles ========================================// -->
+
   <section class="d-flex justify-content-center" *ngIf="!veiculos.length">
     <h1 class="text-secundary my-5"> Ainda não foram adicionados veículos. </h1>
   </section>
 
-  <div *ngIf="veiculos.length"
+  <!-- //======================================== img / graph ============================================// -->
+
+  <div *ngIf="veiculos.length && vehicleMode === 'show'"
     style="width: 100%"
     class="my-4 d-flex justify-content-md-between justify-content-sm-center flex-wrap"
   >
@@ -76,6 +139,46 @@
     <div  id="doughnut-chart-connected"></div>
     <div style="margin: 15px;" id="doughnut-chart-updated"></div>
   </div>
+
+  <!-- //=========================================== buttons ============================================// -->
+
+  <div
+    class="d-flex justify-content-center mt-3 mb-4"
+    *ngIf="vehicleMode === 'show'"
+    >
+    <span class="icon mx-1" (click) = "vehicleMode = 'add';">
+      <fa-icon [icon]="['fas', 'plus']" class="icons text-secondary"></fa-icon>
+    </span>
+    <span class="icon mx-1">
+      <fa-icon [icon]="['fas', 'trash-can']" class="icons text-secondary"></fa-icon>
+    </span>
+  </div>
+
+  <div
+    *ngIf="vehicleMode === 'add'"
+    class="text-secondary my-5"
+    style="text-align: center;"
+    >
+
+    <h2>Adicionar Veículo</h2>
+  </div>
+
+  <div
+    class="d-flex justify-content-center my-4"
+    *ngIf="vehicleMode === 'add'"
+    >
+    <span class="icon mx-1" (click) = "vehicleMode = 'show'; this.googleChartsInit();">
+      <fa-icon [styles]="{'color':'white'}" id="icon-add" [icon]="['fas', 'plus']" class="icons text-secondary"></fa-icon>
+    </span>
+    <span class="icon mx-1" (click) = "postVehicle();clearVehiclePostData(); vehicleMode = 'show'; this.googleChartsInit();">
+      <fa-icon [styles]="{'color':'green'}" [icon]="['fas', 'check']" class="icons text-secondary"></fa-icon>
+    </span>
+    <span class="icon mx-1" (click) = "vehicleMode = 'show'; this.googleChartsInit();">
+      <fa-icon [styles]="{'color':'red'}" [icon]="['fas', 'xmark']" class="icons text-secondary"></fa-icon>
+    </span>
+  </div>
+
+ <!-- //============================================== table ============================================// -->
 
   <table class="w-100 table table-bordered m-0">
     <thead>
@@ -175,3 +278,4 @@
   </table>
 </main>
 <footer></footer>
+

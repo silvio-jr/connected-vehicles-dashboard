@@ -10,18 +10,36 @@ export class FordApiService {
   constructor(private http: HttpClient, private tokenService: TokenService)
   {}
 
-  fetchVehicleData(): Observable<any> {
-    const token = this.tokenService.returnToken();
-    const headers = new HttpHeaders().append('x-access-token', token)
-    return this.http.get('http://localhost:3000/vehicleData',{
-      headers
-    });
-  }
+  SERVER_URL = 'http://localhost:3000/'
+
+  //============================================= vehicle ==========================================//
 
   fetchVehicles(): Observable<any> {
     const token = this.tokenService.returnToken();
     const headers = new HttpHeaders().append('x-access-token', token)
-    return this.http.get('http://localhost:3000/vehicle', {
+    return this.http.get(this.SERVER_URL+'vehicle', {
+      headers
+    });
+  }
+
+  upload(formData:any): Observable<any>{
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.http.post(this.SERVER_URL+'vehicle/upload', formData, {headers})
+  }
+
+  sendVehicle(body: any): Observable<any>{
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.http.post(this.SERVER_URL+'vehicle', body, {headers})
+  }
+
+  //========================================= vehicle data =========================================//
+
+  fetchVehicleData(): Observable<any> {
+    const token = this.tokenService.returnToken();
+    const headers = new HttpHeaders().append('x-access-token', token)
+    return this.http.get(this.SERVER_URL+'vehicleData',{
       headers
     });
   }
@@ -29,18 +47,18 @@ export class FordApiService {
   sendVehicleData(body: any): Observable<any>{
     const token = this.tokenService.returnToken();
     const headers = new HttpHeaders().append('x-access-token', token)
-    return this.http.post('http://localhost:3000/vehicleData', body, {headers})
+    return this.http.post(this.SERVER_URL+'vehicleData', body, {headers})
   }
 
   editVehicleData(body: any, id: string): Observable<any>{
     const token = this.tokenService.returnToken();
     const headers = new HttpHeaders().append('x-access-token', token)
-    return this.http.patch('http://localhost:3000/vehicleData/' + id, body, {headers})
+    return this.http.patch(this.SERVER_URL+'vehicleData/' + id, body, {headers})
   }
 
   deleteVehicleData(id: string): Observable<any>{
     const token = this.tokenService.returnToken();
     const headers = new HttpHeaders().append('x-access-token', token)
-    return this.http.delete ('http://localhost:3000/vehicleData/' + id, {headers})
+    return this.http.delete (this.SERVER_URL+'vehicleData/' + id, {headers})
   }
 }

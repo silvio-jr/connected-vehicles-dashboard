@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FordApiService } from './ford-api/ford-api.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 declare var google: any;
 
@@ -10,13 +12,17 @@ declare var google: any;
   providers: [FordApiService],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private fordApi: FordApiService) {}
+  constructor(private fordApi: FordApiService, private formBuilder: FormBuilder,) {}
 
+  uploadForm: FormGroup;
   selected: number = 0;
   veiculos: any;
   veiculoData: any;
 
   ngOnInit(): void {
+    this.uploadForm = this.formBuilder.group({
+      profile: ['']
+    });
     this.getVehicles();
     this.getVehicleData();
     this.googleChartsInit();
@@ -106,7 +112,23 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  // ======================================================================================== //
+  // ========================================== vehicle ============================================= //
+
+  vehiclePostData = {
+    model: '',
+    totalSales: '',
+    connected: '',
+    softwareUpdates: ''
+  }
+
+  vehicleMode: 'show' | 'add'  = 'show'
+
+  onFileSelect(event:any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.uploadForm.get('profile').setValue(file);
+    }
+  }
 
   getVehicles(): void {
     this.fordApi.fetchVehicles().subscribe((res) => {
@@ -114,7 +136,26 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // ======================================================================================== //
+  postVehicle(){
+    const formData = new FormData();
+    formData.append('vehicle_image', this.uploadForm.get('profile').value);
+    formData.append('model', this.vehiclePostData.model);
+    this.fordApi.upload(formData).subscribe();
+    this.fordApi.sendVehicle(this.vehiclePostData).subscribe();
+    alert(this.vehiclePostData.model+" Adicionado");
+    this.getVehicles();
+  }
+
+  clearVehiclePostData(){
+    this.vehiclePostData = {
+      model: '',
+      totalSales: '',
+      connected: '',
+      softwareUpdates: ''
+    }
+  }
+
+  // =========================================== vehicleData ======================================== //
 
   getVehicleData(): void {
     this.fordApi.fetchVehicleData().subscribe((res) => {
@@ -135,6 +176,7 @@ export class DashboardComponent implements OnInit {
   };
 
   mode: 'search' | 'found' | 'add' | 'update' = 'search';
+
   postVehicleData(): void {
     if (this.vin !== '') {
       const postData = {

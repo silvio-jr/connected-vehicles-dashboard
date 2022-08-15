@@ -51,3 +51,10 @@ footer{
 #icon-add{
   background-color: #133A7C;
 }
+
+#vehicle-popup{
+  position:static;
+  background-color: red;
+  width: 30vw;
+  height: 60vh;
+}
