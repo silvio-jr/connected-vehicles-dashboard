@@ -156,7 +156,7 @@
 
   <div
     *ngIf="vehicleMode === 'add'"
-    class="text-secondary my-5"
+    class="text-secondary mt-5"
     style="text-align: center;"
     >
 
@@ -164,17 +164,18 @@
   </div>
 
   <div
-    class="d-flex justify-content-center my-4"
+    class="d-flex justify-content-center mt-3 mb-5"
     *ngIf="vehicleMode === 'add'"
     >
-    <span class="icon mx-1" (click) = "vehicleMode = 'show'; this.googleChartsInit();">
-      <fa-icon [styles]="{'color':'white'}" id="icon-add" [icon]="['fas', 'plus']" class="icons text-secondary"></fa-icon>
+    <span class="icon mx-1" (click) = "postVehicle(); vehicleMode = 'show'; this.googleChartsInit();">
+      <button
+      class="btn btn-primary font-weight-bold"
+      > Enviar </button>
     </span>
-    <span class="icon mx-1" (click) = "postVehicle();clearVehiclePostData(); vehicleMode = 'show'; this.googleChartsInit();">
-      <fa-icon [styles]="{'color':'green'}" [icon]="['fas', 'check']" class="icons text-secondary"></fa-icon>
-    </span>
     <span class="icon mx-1" (click) = "vehicleMode = 'show'; this.googleChartsInit();">
-      <fa-icon [styles]="{'color':'red'}" [icon]="['fas', 'xmark']" class="icons text-secondary"></fa-icon>
+      <button
+      class="btn btn-danger font-weight-bold"
+      > Cancelar </button>
     </span>
   </div>
 
@@ -254,7 +255,8 @@
               </fa-icon>
             </span>
             <span class="icon" (click) = "updateVehicleData()">
-              <fa-icon [styles]="{'color':'green'}" [icon]="['fas', 'check']" class="icons text-secondary"></fa-icon>
+              <fa-icon
+              [styles]="{'color':'green'}" [icon]="['fas', 'check']" class="icons text-secondary"></fa-icon>
             </span>
             <span class="icon" (click) = "mode = 'search'; emptyData(true)">
               <fa-icon [styles]="{'color':'red'}" [icon]="['fas', 'xmark']" class="icons text-secondary"></fa-icon>

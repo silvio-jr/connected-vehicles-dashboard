@@ -144,6 +144,7 @@ export class DashboardComponent implements OnInit {
     this.fordApi.sendVehicle(this.vehiclePostData).subscribe();
     alert(this.vehiclePostData.model+" Adicionado");
     this.getVehicles();
+    this.clearVehiclePostData();
   }
 
   clearVehiclePostData(){
